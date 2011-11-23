@@ -1,7 +1,28 @@
 #!/usr/bin/python
 
+""" 	A small script to compress files using tar (because 
+	I never remember the options)
+"""
+
 import sys, subprocess, datetime
 
+helpstring = """
+	pack is a script that uses tar to compress files.
+
+	Usage: pack <file or directory> [-o <output name>] [-d]
+	Options:
+		-h		prints this help
+		-o <name>	specifies output filename
+		-d		appends the current date and time to the output 
+				filename
+
+	Examples:
+		pack my_folder/
+		results in my_folder.tar.gz
+
+		pack myfile.txt -d
+		results in myfile.txt.2011-11-24.00h01m.tar.gz
+"""
 # bz2 -> -j
 #tar cvzf $1.tar.gz $1
 
@@ -27,7 +48,10 @@ while i < len(sys.argv):
 		if curr[1] == "o":
 			out = sys.argv[i]
 		elif curr[1] == "d":
-			date = datetime.datetime.now().strftime("_%Y-%m-%d_%H.%M")
+			date = datetime.datetime.now().strftime(".%Y-%m-%d.%Hh%Mm")
+		elif curr[1] == "h":
+			print helpstring
+			sys.exit(0)
 		else:
 			raise Exception("Unknown option")
 	else:
